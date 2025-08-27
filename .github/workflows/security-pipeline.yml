@@ -100,7 +100,7 @@ jobs:
         working-directory: ./target-app
         run: |
           mkdir -p "$GITHUB_WORKSPACE/SCA"
-          osv-scanner --recursive . --format json > "$GITHUB_WORKSPACE/SCA/osv-scanner-repo.json" || true
+          osv-scanner scan --recursive . --format json > "$GITHUB_WORKSPACE/SCA/osv-scanner-repo.json" || true
 
       - name: Upload SCA artifacts
         uses: actions/upload-artifact@v4
