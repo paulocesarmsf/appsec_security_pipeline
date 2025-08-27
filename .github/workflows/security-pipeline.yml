@@ -100,6 +100,8 @@ jobs:
         working-directory: ./target-app
         run: |
           mkdir -p "$GITHUB_WORKSPACE/SCA"
+          pwd
+          ls -la
           osv-scanner scan --recursive . \
           --format json \
           --output "$GITHUB_WORKSPACE/SCA/osv-scanner-repo.json" || true
