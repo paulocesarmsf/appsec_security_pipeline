@@ -15,9 +15,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.12.0
+      - name: ZAP Full Scan
+        uses: zaproxy/action-full-scan@v0.12.0
+
         with:
           target: ${{ github.event.inputs.target_url }}
           cmd_options: '-a -m 5 -T 600'
-          artifact_name: DAST-zap-baseline
+          artifact_name: DAST-zap-full
