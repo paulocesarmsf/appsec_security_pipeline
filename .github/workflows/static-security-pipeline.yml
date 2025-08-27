@@ -1,4 +1,4 @@
-name: Application Security Pipeline
+name: Static - Security Pipeline
 
 on:
   workflow_dispatch:

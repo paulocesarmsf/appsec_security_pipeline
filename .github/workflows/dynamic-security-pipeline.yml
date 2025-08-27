@@ -1,4 +1,4 @@
-name: DAST (OWASP ZAP baseline)
+name: Dynamic - Security Pipeline
 
 on:
   workflow_dispatch:
