@@ -1,0 +1,46 @@
+name: DAST (OWASP ZAP baseline)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: "URL to scan with ZAP (e.g., http://127.0.0.1:8000)"
+        required: true
+        default: "http://127.0.0.1:8000"
+  # push:
+  #   branches: []
+
+jobs:
+  dast:
+    name: Run ZAP Baseline (unauthenticated)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (this repo)
+        uses: actions/checkout@v4
+
+      - name: Prepare output folder
+        run: mkdir -p DAST
+
+      - name: ZAP Baseline Scan
+        env:
+          TARGET_URL: ${{ github.event.inputs.target_url }}
+        run: |
+          echo "Scanning: $TARGET_URL"
+          docker run --rm --network host \
+            -v "$PWD/DAST:/zap/wrk" \
+            owasp/zap2docker-stable zap-baseline.py \
+              -t "$TARGET_URL" \
+              -m 5 \
+              -a \
+              -T 600 \
+              -r zap-baseline.html \
+              -J zap-baseline.json \
+            || true
+
+      - name: Upload DAST artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: DAST-zap-baseline
+          path: DAST/*
+          retention-days: 7
