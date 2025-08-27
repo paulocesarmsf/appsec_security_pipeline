@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       target_repo:
-        description: "Git repository URL (e.g., https://github.com/stephenmcd/mezzanine)"
+        description: "Git repository URL (e.g., https://github.com/netbox-community/netbox)"
         required: true
-        default: "https://github.com/stephenmcd/mezzanine"
+        default: "https://github.com/netbox-community/netbox"
       target_ref:
         description: "Branch/Tag/Commit of the target application (e.g., main)"
         required: false
-        default: "master"
+        default: "main"
   # push:
   #   branches: []
 
@@ -24,8 +24,8 @@ jobs:
 
       - name: Clone target application (public repo only)
         run: |
-          TARGET_REPO="${{ github.event.inputs.target_repo || 'https://github.com/stephenmcd/mezzanine' }}"
-          TARGET_REF="${{ github.event.inputs.target_ref  || 'master' }}"
+          TARGET_REPO="${{ github.event.inputs.target_repo || 'https://github.com/netbox-community/netbox' }}"
+          TARGET_REF="${{ github.event.inputs.target_ref  || 'main' }}"
           APP_DIR="${GITHUB_WORKSPACE}/target-app"
 
           echo "Cloning ${TARGET_REPO} (ref: ${TARGET_REF}) into ${APP_DIR} ..."
@@ -100,7 +100,7 @@ jobs:
         working-directory: ./target-app
         run: |
           mkdir -p "$GITHUB_WORKSPACE/SCA"
-          osv-scanner scan --recursive . --format json > "$GITHUB_WORKSPACE/SCA/osv-scanner-repo.json" || true
+          osv-scanner scan . --format json > "$GITHUB_WORKSPACE/SCA/osv-scanner-repo.json" || true
 
       - name: Upload SCA artifacts
         uses: actions/upload-artifact@v4
