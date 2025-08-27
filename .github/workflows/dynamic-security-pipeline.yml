@@ -28,15 +28,16 @@ jobs:
         run: |
           echo "Scanning: $TARGET_URL"
           docker run --rm --network host \
+            --user "$(id -u):$(id -g)" \
             -v "$PWD/DAST:/zap/wrk" \
-            owasp/zap2docker-stable zap-baseline.py \
+            ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
               -t "$TARGET_URL" \
               -m 5 \
               -a \
               -T 600 \
               -r zap-baseline.html \
               -J zap-baseline.json \
-            || true
+          || true
 
       - name: Upload DAST artifacts
         uses: actions/upload-artifact@v4
