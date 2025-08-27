@@ -1,0 +1,35 @@
+name: Security Pipeline (SAST, SCA, DAST)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_repo:
+        description: "Git repository URL (e.g., https://github.com/stephenmcd/mezzanine)"
+        required: true
+        default: "https://github.com/stephenmcd/mezzanine"
+      target_ref:
+        description: "Branch/Tag/Commit of the target application (e.g., main)"
+        required: false
+        default: "master"
+  # push:
+  #   branches: []
+
+jobs:
+  clone:
+    name: Clone target repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (this delivery repo)
+        uses: actions/checkout@v4
+
+      - name: Clone target application (public repo only)
+        run: |
+          TARGET_REPO="${{ github.event.inputs.target_repo || 'https://github.com/stephenmcd/mezzanine' }}"
+          TARGET_REF="${{ github.event.inputs.target_ref  || 'master' }}"
+          APP_DIR="${GITHUB_WORKSPACE}/target-app"
+
+          echo "Cloning ${TARGET_REPO} (ref: ${TARGET_REF}) into ${APP_DIR} ..."
+          git clone --depth 1 --branch "${TARGET_REF}" "${TARGET_REPO}" "${APP_DIR}"
+
+          echo "Clone completed. Top-level files:"
+          ls -la "${APP_DIR}"
