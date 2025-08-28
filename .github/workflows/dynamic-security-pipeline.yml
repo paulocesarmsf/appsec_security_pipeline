@@ -7,9 +7,15 @@ on:
         description: "URL to scan with ZAP"
         required: true
         default: "http://127.0.0.1:8000"
+  workflow_call:
+    inputs:
+      target_url:
+        description: "URL to scan with ZAP"
+        required: true
+        type: string
 
 jobs:
-  zap-baseline:
+  zap-full-scan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
