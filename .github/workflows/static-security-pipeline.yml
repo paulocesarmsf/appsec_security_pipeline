@@ -98,23 +98,18 @@ jobs:
           name: target-app
           path: ./target-app
 
-      - name: Install OSV-Scanner
-        run: |
-          curl -L https://github.com/google/osv-scanner/releases/latest/download/osv-scanner_linux_amd64 -o /usr/local/bin/osv-scanner
-          chmod +x /usr/local/bin/osv-scanner
-
-      - name: Run OSV-Scanner on repo
-        working-directory: ./target-app
-        run: |
-          mkdir -p "$GITHUB_WORKSPACE/SCA"
-          pwd
-          ls -la
-          osv-scanner scan --recursive . \
-          --format json \
-          --output "$GITHUB_WORKSPACE/SCA/osv-scanner-repo.json" || true
+      - name: Run OSV-Scanner (official action)
+        uses: google/osv-scanner-action/osv-scanner-action@v2.2.2
+        with:
+          scan-args: |-
+            --recursive
+            --format json
+            --output osv-scanner-repo.json
+            ./target-app
+        continue-on-error: true
 
       - name: Upload SCA artifacts
         uses: actions/upload-artifact@v4
         with:
           name: SCA-osv-scanner
-          path: SCA/*
+          path: osv-scanner-repo.json
