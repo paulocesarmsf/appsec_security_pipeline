@@ -79,13 +79,14 @@ jobs:
             --timeout 180
             --exclude node_modules --exclude venv --exclude .venv --exclude .git
             --json --output "$GITHUB_WORKSPACE/SAST/semgrep-report.json"
+            --sarif --output "$GITHUB_WORKSPACE/SAST/semgrep.sarif"
             ./target-app
 
       - name: Upload SARIF to GitHub Code Scanning
         if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: semgrep.sarif
+          sarif_file: SAST/semgrep.sarif
           category: semgrep
 
       - name: Upload SAST artifacts (JSON)
@@ -93,8 +94,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SAST-semgrep
-          path: SAST/semgrep-report.json
-
+          path: |
+            SAST/semgrep-report.json
 
   # sast:
   #   name: Static Analysis — SAST (Semgrep)
