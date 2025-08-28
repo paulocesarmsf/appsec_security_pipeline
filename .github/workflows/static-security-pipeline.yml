@@ -55,6 +55,8 @@ jobs:
     name: Static Analysis — SAST (Semgrep)
     runs-on: ubuntu-latest
     needs: clone
+    container:
+      image: semgrep/semgrep:latest
     steps:
       - name: Checkout (this delivery repo)
         uses: actions/checkout@v4
@@ -65,16 +67,14 @@ jobs:
           name: target-app
           path: ./target-app
 
-      - name: Run Semgrep (official action)
-        uses: semgrep/semgrep-action@v1
-        with:
-          entryPoint: semgrep
-          args: >-
-            --config p/security-audit
-            --timeout 180
-            --metrics=off
-            --exclude node_modules --exclude venv --exclude .venv --exclude .git
-            --json --output semgrep-report.json
+      - name: Run Semgrep (Semgrep CE recommended)
+        run: |
+          semgrep scan \
+            --config p/security-audit \
+            --timeout 180 \
+            --metrics=off \
+            --exclude node_modules --exclude venv --exclude .venv --exclude .git \
+            --json --output semgrep-report.json \
             ./target-app
         continue-on-error: true
 
@@ -83,6 +83,7 @@ jobs:
         with:
           name: SAST-semgrep
           path: semgrep-report.json
+
 
   sca:
     name: Static Analysis — SCA (OSV-Scanner)
