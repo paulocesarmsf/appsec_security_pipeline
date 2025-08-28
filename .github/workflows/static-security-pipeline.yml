@@ -71,9 +71,11 @@ jobs:
       - name: Run Semgrep (official action)
         uses: semgrep/semgrep-action@v1
         with:
-          config: p/security-audit
+          entryPoint: semgrep
           args: >-
+            --config p/security-audit
             --timeout 180
+            --metrics=off
             --exclude node_modules --exclude venv --exclude .venv --exclude .git
             --json --output SAST/semgrep-report.json
             ./target-app
