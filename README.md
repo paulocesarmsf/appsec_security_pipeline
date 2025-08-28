@@ -27,9 +27,9 @@ Both workflows support:
 1. **Manual runs** via `workflow_dispatch` (GitHub UI/CLI/API)
 2. **Reusable invocation** via `workflow_call` from another repository
 
-## 1) Run Manually (workflow_dispatch)
+### 1) Run Manually (workflow_dispatch)
 
-### Static — UI
+#### Static — UI
 1. Open **Actions** in this repository.
 2. Select **Static – Security Pipeline** → **Run workflow**
 3. Fill inputs:
@@ -39,7 +39,7 @@ Both workflows support:
 
 ![alt text](/CICD/static/image.png)
 
-### Dynamic — UI
+#### Dynamic — UI
 1. Open **Actions** in this repository.
 2. Select **Dynamic – Security Pipeline** → **Run workflow**
 3. Fill inputs:
@@ -48,9 +48,9 @@ Both workflows support:
 
 ![alt text](/CICD/static/image-1.png)
 
-## 2) Reuse from Another Repository (workflow_call)
+### 2) Reuse from Another Repository (workflow_call)
 
-### Static — Caller Workflow Example
+#### Static — Caller Workflow Example
 ```yaml
 name: CI – Call Static Security Pipeline (Fixed target)
 
