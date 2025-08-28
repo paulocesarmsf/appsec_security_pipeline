@@ -9,9 +9,7 @@
 - SCA: [OSV-Scanner](https://github.com/google/osv-scanner "Google OSV Scanner GitHub Repository")  
 - DAST: [OWASP ZAP](https://www.zaproxy.org/ "OWASP Zed Attack Proxy Official Website")
 
-These tools were selected because they support a broad range of languages, enabling a flexible pipeline that can be applied across different teams and repositories.  
-They also provide official GitHub Actions, which simplifies integration and ongoing maintenance for the AppSec team.  
-Finally, they are well-established and widely recognized within the security community, ensuring reliability and strong community support.
+These tools were selected because they support a broad range of languages, enabling a flexible pipeline that can be applied across different teams and repositories.They also provide official GitHub Actions, which simplifies integration and ongoing maintenance for the AppSec team. Finally, they are well-established and widely recognized within the security community, ensuring reliability and strong community support.
 
 ### High-level CI/CD integration
 

@@ -65,6 +65,9 @@ jobs:
           name: target-app
           path: ./target-app
 
+      - name: Prepare SAST folder
+        run: mkdir -p SAST
+
       - name: Run Semgrep (official action)
         uses: semgrep/semgrep-action@v1
         with:
@@ -73,7 +76,7 @@ jobs:
           SEMGREP_ARGS: >-
             --timeout 180
             --exclude node_modules --exclude venv --exclude .venv --exclude .git
-            --json --output "$GITHUB_WORKSPACE/SAST/semgrep-report.json"
+            --json --output SAST/semgrep-report.json
             ./target-app
         continue-on-error: true
 
@@ -81,8 +84,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SAST-semgrep
-          path: |
-            SAST/semgrep-report.json
+          path: SAST/semgrep-report.json
 
   sca:
     name: Static Analysis — SCA (OSV-Scanner)
