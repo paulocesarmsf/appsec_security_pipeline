@@ -18,6 +18,8 @@ The pipeline is divided into two main workflows:
 
 These tools were selected because they support a broad range of languages, enabling a flexible pipeline that can be applied across different teams and repositories.They also provide official GitHub Actions, which simplifies integration and ongoing maintenance for the AppSec team. Finally, they are well-established and widely recognized within the security community, ensuring reliability and strong community support.
 
+![alt text](/CICD/static/workflows.png)
+
 ## Steps to Reproduce Security Pipeline (Scans) in CI/CD
 This guide shows how to run two security pipelines and how they fit in your CI/CD:
 
