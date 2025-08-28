@@ -82,12 +82,14 @@ jobs:
             ./target-app
 
       - name: Upload SARIF to GitHub Code Scanning
+        if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: semgrep.sarif
           category: semgrep
 
       - name: Upload SAST artifacts (JSON)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: SAST-semgrep
