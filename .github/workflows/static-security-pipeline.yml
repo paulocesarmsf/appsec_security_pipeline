@@ -72,8 +72,7 @@ jobs:
         uses: semgrep/semgrep-action@v1
         with:
           config: p/security-audit
-        env:
-          SEMGREP_ARGS: >-
+          args: >-
             --timeout 180
             --exclude node_modules --exclude venv --exclude .venv --exclude .git
             --json --output SAST/semgrep-report.json
