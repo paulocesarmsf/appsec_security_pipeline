@@ -61,7 +61,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  run-security-pipeline:
+  static-security-pipeline:
     uses: paulocesarmsf/appsec_security_pipeline/.github/workflows/static-security-pipeline.yml@main
     with:
       target_repo: ${{ format('https://github.com/{0}.git', github.repository) }}
@@ -81,7 +81,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  run-dast:
+  dynamic-security-pipeline:
     uses: paulocesarmsf/appsec_security_pipeline/.github/workflows/dynamic-security-pipeline.yml@main
     with:
       target_url: ${{ vars.TARGET_URL }}
