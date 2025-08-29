@@ -18,7 +18,7 @@ The pipeline is divided into two main workflows:
 
 These tools were selected because they support a broad range of languages, enabling a flexible pipeline that can be applied across different teams and repositories.They also provide official GitHub Actions, which simplifies integration and ongoing maintenance for the AppSec team. Finally, they are well-established and widely recognized within the security community, ensuring reliability and strong community support.
 
-![alt text](/CICD/static/workflows.png)
+![alt text](/CICD/images/workflows.png)
 
 ## Steps to Reproduce Security Pipeline (Scans) in CI/CD
 This guide shows how to run two security pipelines and how they fit in your CI/CD:
@@ -37,7 +37,7 @@ Both workflows support:
    - `target_ref` (optional): e.g., `main`
 4. Click **Run workflow**
 
-![alt text](/CICD/static/image.png)
+![alt text](/CICD/images/image.png)
 
 #### Dynamic — UI
 1. Open **Actions** in this repository.
@@ -46,19 +46,22 @@ Both workflows support:
    - `target_url`: e.g., `https://yourapp.example.com`
 4. Click **Run workflow**
 
-![alt text](/CICD/static/image-1.png)
+![alt text](/CICD/images/image-1.png)
 
-### 2) Reuse from Another Repository (workflow_call)
+### 2) Use This Pipeline from Other Repositories (workflow_call)
 
 #### Static — Caller Workflow Example
+1. In your **target repository**, create: `.github/workflows/call-static-security.yml`
+2. Paste the following content:  
+**Option A — Specific branches (multiple + patterns)**
 ```yaml
 name: CI – Call Static Security Pipeline (Fixed target)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop", "release/**" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop", "release/**" ]
 
 jobs:
   static-security-pipeline:
@@ -69,16 +72,35 @@ jobs:
     permissions:
       contents: read
 ```
+**Option B — All branches (no filter)**
+```yaml
+on:
+  push: {}
+  pull_request: {}
+```
+**Tip: You can also exclude branches using branches-ignore, e.g.:**
+```yaml
+on:
+  push:
+    branches-ignore: [ "docs/**" ]
+```
+3. Commit and push to main (or your chosen branches). The workflow will run on push and pull_request events.
+
+![alt text](/CICD/images/caller-static-workflow.png)
 
 ### Dynamic — Caller Workflow Example
+1. In your **target repository**, create: `.github/workflows/call-dynamic-security.yml`
+2. Create an Actions variable named **TARGET_URL** (Settings → Secrets and variables → Actions).
+3. Paste one of the variants below.
+
 ```yaml
 name: CI – Call Dynamic Security Pipeline (Vars)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop", "release/**" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop", "release/**" ]
 
 jobs:
   dynamic-security-pipeline:
@@ -88,3 +110,16 @@ jobs:
     permissions:
       contents: read
 ```
+**Option B — All branches (no filter)**
+```yaml
+on:
+  push: {}
+  pull_request: {}
+```
+**Tip: You can also exclude branches using branches-ignore, e.g.:**
+```yaml
+on:
+  push:
+    branches-ignore: [ "docs/**" ]
+```
+3. Commit and push to main (or your chosen branches). The workflow will run on push and pull_request events.
