@@ -2,7 +2,7 @@
 
 ## Applications used
 
-- TBD (insert links to the repositories of the applications selected for analysis)
+**FlaskBB** (https://github.com/flaskbb/flaskbb): Is a Forum Software written in Python using the micro framework Flask.
 
 ## High-level CI/CD integration diagram and explanation.
 This security pipeline was built on **GitHub Actions** to be flexible and easy to integrate into different repositories. It can be triggered automatically within development workflows or executed manually by the security team.
@@ -25,7 +25,7 @@ This guide shows how to run two security pipelines and how they fit in your CI/C
 
 Both workflows support:
 1. **Manual runs** via `workflow_dispatch` (GitHub UI/CLI/API)
-2. **Reusable invocation** via `workflow_call` from another repository
+2. **Import Actions** via `workflow_call` from another repositories
 
 ### 1) Run Manually (workflow_dispatch)
 
@@ -51,7 +51,7 @@ Both workflows support:
 ### 2) Use This Pipeline from Other Repositories (workflow_call)
 
 #### Static — Caller Workflow Example
-1. In your **target repository**, create: `.github/workflows/call-static-security.yml`
+1. In your **repository**, create: `.github/workflows/call-static-security.yml`
 2. Paste the following content:  
 **Option A — Specific branches (multiple + patterns)**
 ```yaml
@@ -89,7 +89,7 @@ on:
 ![alt text](/CICD/images/caller-static-workflow.png)
 
 ### Dynamic — Caller Workflow Example
-1. In your **target repository**, create: `.github/workflows/call-dynamic-security.yml`
+1. In your **repository**, create: `.github/workflows/call-dynamic-security.yml`
 2. Create an Actions variable named **TARGET_URL** (Settings → Secrets and variables → Actions).
 3. Paste one of the variants below.
 
