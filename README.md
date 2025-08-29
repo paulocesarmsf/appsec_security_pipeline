@@ -123,3 +123,7 @@ on:
     branches-ignore: [ "docs/**" ]
 ```
 3. Commit and push to main (or your chosen branches). The workflow will run on push and pull_request events.
+
+![alt text](/CICD/images/caller-dynamic-workflow.png)
+
+**PS:** Use this security pipeline from other repositories in this configurations (workflow_call) just works with repositories in https://github.com/paulocesarmsf org because this repo is private.
