@@ -22,8 +22,8 @@ Instead of using solely the **CVSS**, I enriched the analysis by checking the pr
 ## Finding 1: json5:2.2.1 - CVE-2022-46175
 
 **Description:**  
-  `CVE-2022-46175` is a vulnerability in the `json5` package where untrusted input can trigger prototype pollution.  
-  This issue may allow an attacker to manipulate an application’s object properties, potentially leading to unexpected behavior, data tampering, or security bypasses.  
+  Prototype pollution in JSON5 via the `parse` method.  
+  The package does not restrict keys like `__proto__`, allowing crafted input to modify the prototype of the resulting object. This can let attackers alter application properties, leading to unexpected behavior, data tampering, or security bypasses.  
 
 **Severity**
 - **CVSS:** 7.1 (High)  
@@ -32,8 +32,27 @@ Instead of using solely the **CVSS**, I enriched the analysis by checking the pr
 This vulnerability is prioritized because it combines **high severity** with one of the **highest exploitation likelihoods (EPSS)**, making it a practical risk in real-world scenarios.  
 
 **Exploitation Scenario**  
-  An attacker could supply maliciously crafted JSON input that exploits prototype pollution.  
-  This could lead to the modification of application configuration, privilege escalation, or introduction of arbitrary values into security-sensitive operations.  
+GitHub Advisory has a brilliant **[POC](https://github.com/json5/json5/security/advisories/GHSA-9c47-m6qq-7p4h)** to explain the exploitation scenario.  
+
+But let's try simplify.  
+- Imagine an app that decides what to do based on the user's role, for example an administrative action:
+```js
+const doSomethingAsAdmin = (user) => {
+  if (user.isAdmin) {
+    console.log('Doing thing as admin')
+  } else {
+    console.log('Action not allowed, you are not an admin')
+  }
+}
+```
+- An attacker could try exploit Prototype Pollution using the special __proto__ key:
+```js
+const JSON5 = require('json5');
+const props3 = JSON5.parse('{"foo": "bar", "__proto__": {"isAdmin": true}}');
+doSomethingAsAdmin(props3); 
+// Output: "Doing thing as admin"
+```
+- In this case, the attacker pollutes the object prototype, making isAdmin resolve to true and bypassing the intended admin check.
 
 **Mitigation Recommendations**  
   - Upgrade to a patched version of `json5` (≥ 2.2.2 or the latest available release).  
