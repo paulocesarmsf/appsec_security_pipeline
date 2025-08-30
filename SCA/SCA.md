@@ -80,3 +80,44 @@ This vulnerability is prioritized because `certifi` is a widely used package in 
 - Upgrade to `certifi` ≥ 2024.7.4, which removes the untrusted GLOBALTRUST root certificates and addresses.
 - Regularly update and monitor the certificate bundle to ensure applications use trusted root certificates.  
 - **Use SCA tools and analyze your SBOM** to track dependencies like `certifi` across all applications, ensuring they remain up to date.  
+
+## Finding 3: loader-utils:2.0.2 - CVE-2022-37601
+
+**Description:**  
+Prototype pollution vulnerability in `webpack loader-utils` prior to version 2.0.3.  
+The issue exists in the `parseQuery` function of `parseQuery.js`, where untrusted input passed through the `name` variable is not properly sanitized.  
+This allows attackers to inject properties like `__proto__`, leading to prototype pollution and manipulation of application behavior during the webpack build process. 
+
+**Severity**
+- **CVSS:** 9.8 (Critical)  
+- **EPSS:** 0.1584 (moderate probability of exploitation)  
+
+This vulnerability is prioritized because it has a **critical CVSS score** (9.8) and affects a package commonly used in the JavaScript/webpack ecosystem.  
+Even with a moderate EPSS, the high severity means exploitation could have a devastating impact if triggered.  
+
+**Exploitation Scenario**  
+Developers usually don’t use `loader-utils` directly, but it is included as a dependency of many webpack loaders (like `file-loader`, `url-loader`, `sass-loader`).
+Let’s see a case in real life:  
+
+- **Supply chain attack:**  
+  An attacker publishes or contributes a package that internally configures webpack with malicious query parameters.  
+  When the victim project installs the package and runs the build, the malicious payload is passed to `parseQuery()`.  
+  Using `?__proto__[isAdmin]=true`, the attacker pollutes the global object prototype, potentially bypassing security checks or manipulating logic across the build process.  
+
+**Simplified PoC:**  
+```js
+const { parseQuery } = require('loader-utils');
+
+// Normal usage
+console.log(parseQuery('?foo=bar')); 
+// -> { foo: "bar" }
+
+// Malicious payload
+console.log(parseQuery('?__proto__[isAdmin]=true')); 
+// -> {} but now ({}).isAdmin === true for all objects
+```
+
+**Mitigation Recommendations**  
+- Upgrade to a patched version of `loader-utils` (≥ 2.0.3 or the latest available release).  
+- Avoid processing untrusted input in build tools.  
+- **Use SCA tools and analyze your SBOM** to detect and monitor vulnerable versions of `loader-utils` across all projects.  
