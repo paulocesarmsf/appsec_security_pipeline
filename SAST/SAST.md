@@ -4,11 +4,11 @@ This document summarizes the three most critical vulnerabilities identified duri
 
 ## Summary
 
-| ID  | Vulnerability                  | File                          | Line | CWE   | Severity |
-|-----|--------------------------------|-------------------------------|------|-------|----------|
-| 1   | Use of `eval()` for code execution | flaskbb/cli/main.py          | 382  | CWE-94 / CWE-95 | High |
-| 2   | Use of `\|safe` filter and unescaped template (possible XSS) | templates/_macros/form.html | 12   | CWE-79 | Medium |
-| 3   | Template variable in `href` attribute (possible XSS) | templates/layout.html        | 54   | CWE-79 | Info |
+| Vulnerability                  | File                          | Line | CWE   | Severity |
+|--------------------------------|-------------------------------|------|-------|----------|
+| Use of `eval()` for code execution | flaskbb/cli/main.py          | 382  | CWE-94 / CWE-95 | High |
+|  Use of `\|safe` filter and unescaped template (possible XSS) | templates/_macros/form.html | 12   | CWE-79 | Medium |
+| Template variable in `href` attribute (possible XSS) | templates/layout.html        | 54   | CWE-79 | Info |
 
 
 ## Finding 1 – Use of `eval()` for code execution
