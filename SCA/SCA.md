@@ -10,3 +10,11 @@ Instead of using solely the **CVSS**, I enriched the analysis by checking the pr
 - This script parses OSV results, retrieves EPSS values, and exports a simplified [CSV file](https://github.com/paulocesarmsf/appsec_security_pipeline/blob/main/SCA/parsed-vulnerabilities.csv) with package, version, CVE, CVSS, and EPSS.  
 
 **Ps:** Details on how to run the script are included inside the script itself.
+
+## Summary
+
+| Package       | Version | CVE            | CVSS | EPSS   | Severity |
+|---------------|---------|----------------|------|--------|----------|
+| json5         | 2.2.1   | CVE-2022-46175 | 7.1  | 0.4049 | High     |
+| certifi       | 2024.2.2| CVE-2024-39689 | 7.5  | 0.2123 | High     |
+| loader-utils  | 2.0.2   | CVE-2022-37601 | 9.8  | 0.1584 | Critical |
