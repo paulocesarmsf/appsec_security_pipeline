@@ -58,3 +58,25 @@ doSomethingAsAdmin(user);
   - Upgrade to a patched version of `json5` (≥ 2.2.2 or the latest available release).  
   - Validate and sanitize all untrusted JSON input before processing.  
   - **Use SCA tools and analyze your SBOM** to identify and continuously monitor vulnerable dependencies across all apps that include `json5` package.
+
+## Finding 2: certifi:2024.2.2 - CVE-2024-39689
+
+**Description:**  
+A vulnerability was identified in the `certifi` package, which provides Mozilla’s trusted root certificates for Python applications.  
+This issue may allow applications to rely on outdated or unsafe certificate bundles, potentially exposing them to **man-in-the-middle (MITM) attacks** or other trust-related risks if invalid certificates are not properly rejected.
+
+**Severity**
+- **CVSS:** 7.5 (High)  
+- **EPSS:** 0.2123 (moderate probability of exploitation)  
+
+This vulnerability is prioritized because `certifi` is a widely used package in the Python ecosystem. A compromise or misconfiguration in root certificates can have a broad impact across multiple applications.  
+
+*Exploitation Scenario**  
+- Imagine an application that uses `certifi` to validate HTTPS requests.  
+- If the certificate bundle is outdated or incorrectly validated, an attacker could present a malicious certificate chain and potentially bypass TLS verification.  
+- This could enable interception or manipulation of supposedly secure communications.  
+
+**Mitigation Recommendations**  
+- Upgrade to `certifi` ≥ 2024.7.4, which removes the untrusted GLOBALTRUST root certificates and addresses.
+- Regularly update and monitor the certificate bundle to ensure applications use trusted root certificates.  
+- **Use SCA tools and analyze your SBOM** to track dependencies like `certifi` across all applications, ensuring they remain up to date.  
