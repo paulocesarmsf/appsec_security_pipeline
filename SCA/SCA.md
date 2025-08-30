@@ -18,3 +18,24 @@ Instead of using solely the **CVSS**, I enriched the analysis by checking the pr
 | json5         | 2.2.1   | CVE-2022-46175 | 7.1  | 0.4049 | High     |
 | certifi       | 2024.2.2| CVE-2024-39689 | 7.5  | 0.2123 | High     |
 | loader-utils  | 2.0.2   | CVE-2022-37601 | 9.8  | 0.1584 | Critical |
+
+## Finding 1: json5:2.2.1 - CVE-2022-46175
+
+**Description:**  
+  `CVE-2022-46175` is a vulnerability in the `json5` package where untrusted input can trigger prototype pollution.  
+  This issue may allow an attacker to manipulate an application’s object properties, potentially leading to unexpected behavior, data tampering, or security bypasses.  
+
+**Severity**
+- **CVSS:** 7.1 (High)  
+- **EPSS:** 0.4049 (high probability of exploitation)  
+
+This vulnerability is prioritized because it combines **high severity** with one of the **highest exploitation likelihoods (EPSS)**, making it a practical risk in real-world scenarios.  
+
+**Exploitation Scenario**  
+  An attacker could supply maliciously crafted JSON input that exploits prototype pollution.  
+  This could lead to the modification of application configuration, privilege escalation, or introduction of arbitrary values into security-sensitive operations.  
+
+**Mitigation Recommendations**  
+  - Upgrade to a patched version of `json5` (≥ 2.2.2 or the latest available release).  
+  - Validate and sanitize all untrusted JSON input before processing.  
+  - **Use SCA tools and analyze your SBOM** to identify and continuously monitor vulnerable dependencies across all apps that include `json5` package.
