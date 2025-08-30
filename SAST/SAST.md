@@ -11,7 +11,7 @@ This document summarizes the three most critical vulnerabilities identified duri
 | 3   | Template variable in `href` attribute (possible XSS) | templates/layout.html        | 54   | CWE-79 | Info |
 
 
-## Use of `eval()` for code execution
+## Finding 1 – Use of `eval()` for code execution
 
 **Description:**  
 The use of `eval()` allows dynamic execution of arbitrary code. When applied to external input, this can result in Remote `Code Execution (RCE)`, giving an attacker the ability to run commands with the same privileges as the application.
